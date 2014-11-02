@@ -52,10 +52,11 @@ require.define = function (name, exports) {
     exports: exports
   };
 };
-require.register("wooorm~soundex-code@0.0.1", function (exports, module) {
+require.register("wooorm~soundex-code@0.0.2", function (exports, module) {
 'use strict';
 
-var DEFAULT_LENGTH, map;
+var DEFAULT_LENGTH,
+    map;
 
 /**
  * Define the minimum length of Soundex keys.
@@ -89,7 +90,9 @@ map.r = 6;
  */
 
 function pad(value) {
-    var length = value.length;
+    var length;
+
+    length = value.length;
 
     if (length >= DEFAULT_LENGTH) {
         return value;
@@ -115,20 +118,25 @@ function pad(value) {
  */
 
 function soundexPhonetics(value, maxLength) {
-    var length, iterator, character, results, prev, phonetics;
+    var length,
+        index,
+        character,
+        results,
+        prev,
+        phonetics;
 
     value = String(value).toLowerCase();
 
     length = value.length;
-    iterator = -1;
+    index = -1;
     results = [];
 
-    while (++iterator < length) {
-        character = value.charAt(iterator);
+    while (++index < length) {
+        character = value.charAt(index);
         phonetics = map[character];
 
         /* Initial letter */
-        if (iterator === 0) {
+        if (index === 0) {
             results.push(character.toUpperCase());
         /* Phonetics value */
         } else if (phonetics && phonetics !== prev) {
@@ -156,7 +164,7 @@ module.exports = soundexPhonetics;
 });
 
 require.register("soundex-code-gh-pages", function (exports, module) {
-var soundex = require("wooorm~soundex-code@0.0.1");
+var soundex = require('wooorm~soundex-code@0.0.2');
 var inputElement = document.getElementsByTagName('input')[0];
 var outputElement = document.getElementsByTagName('output')[0];
 
@@ -170,4 +178,4 @@ getPhonetics();
 
 });
 
-require("soundex-code-gh-pages")
+require("soundex-code-gh-pages");

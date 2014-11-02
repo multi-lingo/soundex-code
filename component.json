@@ -3,7 +3,7 @@
   "private": true,
   "repository": "wooorm/soundex-code",
   "dependencies": {
-    "wooorm/soundex-code": "^0.0.1"
+    "wooorm/soundex-code": "^0.0.2"
   },
   "scripts": [
     "index.js"
