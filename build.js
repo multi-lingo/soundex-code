@@ -1,70 +1,137 @@
-/**
- * Require the module at `name`.
- *
- * @param {String} name
- * @return {Object} exports
- * @api public
- */
+(function outer(modules, cache, entries){
 
-function require(name) {
-  var module = require.modules[name];
-  if (!module) throw new Error('failed to require "' + name + '"');
+  /**
+   * Global
+   */
 
-  if (!('exports' in module) && typeof module.definition === 'function') {
-    module.client = module.component = true;
-    module.definition.call(this, module.exports = {}, module);
-    delete module.definition;
+  var global = (function(){ return this; })();
+
+  /**
+   * Require `name`.
+   *
+   * @param {String} name
+   * @param {Boolean} jumped
+   * @api public
+   */
+
+  function require(name, jumped){
+    if (cache[name]) return cache[name].exports;
+    if (modules[name]) return call(name, require);
+    throw new Error('cannot find module "' + name + '"');
   }
 
-  return module.exports;
+  /**
+   * Call module `id` and cache it.
+   *
+   * @param {Number} id
+   * @param {Function} require
+   * @return {Function}
+   * @api private
+   */
+
+  function call(id, require){
+    var m = cache[id] = { exports: {} };
+    var mod = modules[id];
+    var name = mod[2];
+    var fn = mod[0];
+
+    fn.call(m.exports, function(req){
+      var dep = modules[id][1][req];
+      return require(dep ? dep : req);
+    }, m, m.exports, outer, modules, cache, entries);
+
+    // expose as `name`.
+    if (name) cache[name] = cache[id];
+
+    return cache[id].exports;
+  }
+
+  /**
+   * Require all entries exposing them on global if needed.
+   */
+
+  for (var id in entries) {
+    if (entries[id]) {
+      global[entries[id]] = require(id);
+    } else {
+      require(id);
+    }
+  }
+
+  /**
+   * Duo flag.
+   */
+
+  require.duo = true;
+
+  /**
+   * Expose cache.
+   */
+
+  require.cache = cache;
+
+  /**
+   * Expose modules
+   */
+
+  require.modules = modules;
+
+  /**
+   * Return newest require.
+   */
+
+   return require;
+})({
+1: [function(require, module, exports) {
+'use strict';
+
+/**
+ * Dependencies.
+ */
+
+var soundex = require('wooorm/soundex-code@0.1.1');
+
+/**
+ * DOM elements.
+ */
+
+var $input = document.getElementsByTagName('input')[0];
+var $output = document.getElementsByTagName('output')[0];
+
+/**
+ * Event handlers.
+ */
+
+function oninputchange() {
+    $output.textContent = soundex($input.value);
 }
 
 /**
- * Registered modules.
+ * Listen.
  */
 
-require.modules = {};
+$input.addEventListener('input', oninputchange);
 
 /**
- * Register module at `name` with callback `definition`.
- *
- * @param {String} name
- * @param {Function} definition
- * @api private
+ * Initial answer.
  */
 
-require.register = function (name, definition) {
-  require.modules[name] = {
-    definition: definition
-  };
-};
+oninputchange();
 
-/**
- * Define a module's exports immediately with `exports`.
- *
- * @param {String} name
- * @param {Generic} exports
- * @api private
- */
-
-require.define = function (name, exports) {
-  require.modules[name] = {
-    exports: exports
-  };
-};
-require.register("wooorm~soundex-code@0.0.2", function (exports, module) {
+}, {"wooorm/soundex-code@0.1.1":2}],
+2: [function(require, module, exports) {
 'use strict';
 
 var DEFAULT_LENGTH,
     map;
 
-/**
+/*
  * Define the minimum length of Soundex keys.
  */
 
 DEFAULT_LENGTH = 4;
 
-/**
+/*
  * Define the Soundex values belonging to characters.
  *
  * This map also includes vowels (with a value of 0) to easily distinguish
@@ -88,7 +155,6 @@ map.r = 6;
  * @param {string} value
  * @return {string}
  */
-
 function pad(value) {
     var length;
 
@@ -116,7 +182,6 @@ function pad(value) {
  * @param {number} maxLength
  * @return {string}
  */
-
 function soundexPhonetics(value, maxLength) {
     var length,
         index,
@@ -155,27 +220,10 @@ function soundexPhonetics(value, maxLength) {
     return pad(results.join('')).substr(0, maxLength || DEFAULT_LENGTH);
 }
 
-/**
+/*
  * Export `soundexPhonetics`.
  */
 
 module.exports = soundexPhonetics;
 
-});
-
-require.register("soundex-code-gh-pages", function (exports, module) {
-var soundex = require('wooorm~soundex-code@0.0.2');
-var inputElement = document.getElementsByTagName('input')[0];
-var outputElement = document.getElementsByTagName('output')[0];
-
-function getPhonetics() {
-    outputElement.textContent = soundex(inputElement.value);
-}
-
-inputElement.addEventListener('input', getPhonetics);
-
-getPhonetics();
-
-});
-
-require("soundex-code-gh-pages");
+}, {}]}, {}, {"1":""})

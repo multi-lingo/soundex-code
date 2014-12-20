@@ -1,11 +1,34 @@
-var soundex = require('soundex-code');
-var inputElement = document.getElementsByTagName('input')[0];
-var outputElement = document.getElementsByTagName('output')[0];
+'use strict';
 
-function getPhonetics() {
-    outputElement.textContent = soundex(inputElement.value);
+/**
+ * Dependencies.
+ */
+
+var soundex = require('wooorm/soundex-code@0.1.1');
+
+/**
+ * DOM elements.
+ */
+
+var $input = document.getElementsByTagName('input')[0];
+var $output = document.getElementsByTagName('output')[0];
+
+/**
+ * Event handlers.
+ */
+
+function oninputchange() {
+    $output.textContent = soundex($input.value);
 }
 
-inputElement.addEventListener('input', getPhonetics);
+/**
+ * Listen.
+ */
 
-getPhonetics();
+$input.addEventListener('input', oninputchange);
+
+/**
+ * Initial answer.
+ */
+
+oninputchange();
