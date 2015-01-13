@@ -89,7 +89,7 @@
  * Dependencies.
  */
 
-var soundex = require('wooorm/soundex-code@0.1.1');
+var soundex = require('wooorm/soundex-code@0.1.2');
 
 /**
  * DOM elements.
@@ -118,7 +118,7 @@ $input.addEventListener('input', oninputchange);
 
 oninputchange();
 
-}, {"wooorm/soundex-code@0.1.1":2}],
+}, {"wooorm/soundex-code@0.1.2":2}],
 2: [function(require, module, exports) {
 'use strict';
 

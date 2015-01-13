@@ -4,7 +4,7 @@
  * Dependencies.
  */
 
-var soundex = require('wooorm/soundex-code@0.1.1');
+var soundex = require('wooorm/soundex-code@0.1.2');
 
 /**
  * DOM elements.
