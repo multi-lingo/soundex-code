@@ -1,0 +1,13 @@
+{
+  "name": "stemmer-www",
+  "private": true,
+  "dependencies": {
+    "soundex": "^0.2.1"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.1"
+  },
+  "scripts": {
+    "build": "browserify index.js > build.js"
+  }
+}

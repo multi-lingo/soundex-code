@@ -1,6 +1,7 @@
 .DS_Store
 *.log
-build/
-components/
+.nyc_output/
 coverage/
 node_modules/
+soundex-code.js
+soundex-code.min.js
