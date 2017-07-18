@@ -1,8 +1,8 @@
 {
-  "name": "stemmer-www",
+  "name": "soundex-code-www",
   "private": true,
   "dependencies": {
-    "soundex": "^0.2.1"
+    "soundex-code": "^1.0.0"
   },
   "devDependencies": {
     "browserify": "^13.1.1"
