@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-var soundex = require('soundex-code');
+var soundex = require('soundex-code')
 
-var $input = document.getElementsByTagName('input')[0];
-var $output = document.getElementsByTagName('output')[0];
+var $input = document.getElementsByTagName('input')[0]
+var $output = document.getElementsByTagName('output')[0]
 
-$input.addEventListener('input', oninputchange);
+$input.addEventListener('input', oninputchange)
 
-oninputchange();
+oninputchange()
 
 function oninputchange() {
-  $output.textContent = soundex($input.value);
+  $output.textContent = soundex($input.value)
 }
